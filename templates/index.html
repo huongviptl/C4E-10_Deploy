@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Huala</title>
+</head>
+<body>
+
+{#<img src="/images/cigarette.jpg" alt="">#}
+
+<h2>Welcome to Tobacco Agent</h2>
+
+{% for tobacco in Tobacco %}
+    <img src="{{ tobacco.image }}" alt="">
+    <h3>{{ tobacco.title }}</h3>
+    <p>{{ tobacco.price }}</p>
+{% endfor %}
+
+<p>Which kind of Tobacco do u want ??</p>
+<form>
+    <button>Tobacco 555 !!</button>
+    <button>White Horse !!</button>
+    <button>Thang Long !!</button>
+
+</form>
+
+<form>
+    <button>Click to Buy !!</button>
+
+</form>
+
+</body>
+</html>
