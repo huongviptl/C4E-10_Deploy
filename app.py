@@ -8,7 +8,7 @@ app = Flask(__name__)
 mlab.connect()
 
 app.config["IMG_PATH"] = os.path.join(app.root_path,"images")
-
+app.secret_key = "Dinh Heo"
 class Tobacco(Document):
     image = StringField()
     title = StringField()
@@ -25,6 +25,42 @@ tobacco1 = Tobacco(
 # title = "Red rose"
 # price = 10000
 
+@app.route("/signup")
+def add_user():
+    user = input('Create Username: ')
+    password = input('Create Password: ')
+
+    username.append(user)
+    password.append(password)
+    if user in login:
+        print "That user already exsist"
+        return False
+    else:
+        store[user] = password
+        return True
+
+@app.route("/logout")
+def logout():
+    session["logged_in"] = False
+    return redirect(url_for("login"))
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
+    elif request.method == "POST":
+        form = request.form
+        username = form["username"]
+        password = form["password"]
+
+        if username == "admin" and password == "admin":
+            # Valid credentials
+            session["logged_in"] = True
+            return redirect(url_for("index"))
+        else:
+            # Invalid credentials
+            return "Invalid credentials"
+
 
 
 @app.route('/')
@@ -37,26 +73,30 @@ def image(image_name):
 
 @app.route("/add-tobacco", methods=["GET", "POST"])
 def add_tobacco():
-    if request.method == "GET": # FORM Requested
-        return render_template("add_tobacco.html")
-    elif request.method == "POST": # user submitted FORM
-        # 1: Get data (title, image, price)
-        form = request.form
-        title = form["title"]
-        # image = form["image"]
-        price = form["price"]
-        image = request.files["image"]
+    if "logged_in" in session and session["logged_in"]:
 
-        filename = secure_filename(image.filename)
+        if request.method == "GET": # FORM Requested
+            return render_template("add_tobacco.html")
+        elif request.method == "POST": # user submitted FORM
+            # 1: Get data (title, image, price)
+            form = request.form
+            title = form["title"]
+            # image = form["image"]
+            price = form["price"]
+            image = request.files["image"]
 
-        image.save(os.path.join(app.config["IMG_PATH"],filename))
+            filename = secure_filename(image.filename)
 
-        # #2: Save data into database
-        new_tobacco = Tobacco(title=title,
-                              image="/images/{0}".format(filename),
-                              price=price)
-        new_tobacco.save()
-        return redirect(url_for("index"))
+            image.save(os.path.join(app.config["IMG_PATH"],filename))
+
+            # #2: Save data into database
+            new_tobacco = Tobacco(title=title,
+                                  image="/images/{0}".format(filename),
+                                  price=price)
+            new_tobacco.save()
+            return redirect(url_for("index"))
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/aboutme")
 def aboutme():

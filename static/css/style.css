@@ -1,0 +1,51 @@
+h1{
+    color: #ff60b3;
+}
+
+p{
+    font-weight: bold;
+}
+
+#p1 {
+    background: #fff534;
+}
+
+.comic{
+    font-family: "Comic Sans MS";
+}
+
+.bluetext{
+    color: blue;
+}
+
+[type="text"]{
+    border: 2px solid brown
+}
+
+[href]{
+    text-shadow: 1px 1px #626dff;
+}
+
+ul li {
+    list-style: none;
+}
+
+div > a{
+    font-style: italic;
+}
+
+img:hover{
+    box-shadow: 0 0 15px #f1ff44;
+}
+
+a:active{
+    color:  green;
+}
+
+input:focus{
+    border-radius: 8px;
+}
+/*  h1 = selector
+    color = property
+    red = value
+ */
